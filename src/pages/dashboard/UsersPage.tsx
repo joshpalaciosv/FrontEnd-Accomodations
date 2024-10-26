@@ -79,7 +79,18 @@ function UsersPage() {
 
   return (
     <MotionDiv>
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+
+          gap: 3,
+          width: {
+            xs: "100%",
+            md: "100%",
+          },
+        }}
+      >
         <MainModal
           isOpen={isOpen}
           handleModal={handleModal}
@@ -104,7 +115,7 @@ function UsersPage() {
         {isLoading ? (
           <TableSkeleton rowCount={5} columnCount={1} />
         ) : (
-          <MotionDiv>
+          <MotionDiv className="flex max-w-full flex-col items-center justify-center">
             <EnhancedTable<User>
               rowData={userData}
               columnDefs={columnDefs}

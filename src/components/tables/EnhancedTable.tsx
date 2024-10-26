@@ -41,7 +41,20 @@ const EnhancedTable = <T,>({
   );
 
   return (
-    <Box className="ag-theme-quartz" style={{ width: "100%", height: "500px" }}>
+    <Box
+      className="ag-theme-quartz"
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      sx={{
+        width: "100%",
+        height: "500px",
+        maxWidth: {
+          xs: "85vw",
+          md: "100%",
+        },
+      }}
+    >
       <AgGridReact
         rowData={rowData}
         columnDefs={columnDefs}

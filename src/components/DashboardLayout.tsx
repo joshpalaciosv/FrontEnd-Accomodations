@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import {
   Sheet,
   Box,
@@ -34,6 +35,9 @@ export default function DashboardLayout({
   const [user, setUser] = useState<UserAuth | null>(getAuthUser());
   const navigate = useNavigate();
   const location = useLocation();
+  const isScreenWidthMoreThan600 = useMediaQuery(
+    "(min-width:600px) and (max-height:500px)",
+  );
 
   useEffect(() => {
     if (!user) {
@@ -73,17 +77,33 @@ export default function DashboardLayout({
       {/* Sidebar */}
       <Sheet
         sx={{
-          minWidth: sidebarOpen ? 280 : 80,
+          // display: {xs:'flex',md:'flex'},
+          // flexDirection: {xs:'row', md:'column'},
+          minWidth: { xs: 0, sm: 80, md: sidebarOpen ? 280 : 80 },
           position: { xs: "fixed", md: "sticky" },
-          top: 0,
-          height: "100vh",
+          // top: { xs: 0, md: 0 },
+          bottom: { xs: 0, md: "auto" },
+          // utilizamos el isScreenWidthMoreThan600 para que el sidebar no se oculte en mobile cuando esta en horizontal
+          height: {
+            xs: isScreenWidthMoreThan600 ? "17vh" : "7.5vh",
+            md: "100vh",
+          },
           transition: "width 0.2s",
           zIndex: 1000,
           borderRight: "1px solid",
           borderColor: "divider",
+          marginBottom: { xs: -2, sm: -2 },
+          paddingBottom: { xs: 8, sm: 2 },
         }}
       >
-        <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 2 }}>
+        <Box
+          sx={{
+            p: 2,
+            display: { xs: "none", md: "flex" },
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
           <IconButton
             variant="plain"
             color="neutral"
@@ -93,22 +113,43 @@ export default function DashboardLayout({
           </IconButton>
           {sidebarOpen && (
             // <Typography level="h5">Dashboard</Typography>
-            <Typography>Dashboard</Typography>
+            // cuando el screen sea para mobile se oculta el texto
+            <Typography sx={{ display: { xs: "none", md: "block" } }}>
+              Dashboard
+            </Typography>
           )}
         </Box>
-        <List>
+        <List
+          sx={{
+            display: { xs: "flex", md: "flex" },
+            flexDirection: { xs: "row", md: "column" },
+            width: { xs: "100vw", md: "100%" },
+            // border: '1px solid',
+            backgroundColor: "white",
+
+            // alignItems: 'center',
+            justifyContent: { xs: "space-around" },
+          }}
+        >
           {menuItems.map((item) => (
             <ListItem key={item.label}>
               <ListItemButton
                 selected={location.pathname === item.path}
                 onClick={() => navigate(item.path)}
                 sx={{
-                  gap: sidebarOpen ? 2 : 0,
-                  justifyContent: sidebarOpen ? "flex-start" : "center",
+                  gap: { xs: 0, md: sidebarOpen ? 2 : 0 },
+                  justifyContent: {
+                    xs: "center",
+                    md: sidebarOpen ? "flex-start" : "center",
+                  },
                 }}
               >
                 {item.icon}
-                {sidebarOpen && item.label}
+                {/* cuando el screen sea para mobile se oculta el texto */}
+                <Typography sx={{ display: { xs: "none", md: "block" } }}>
+                  {/* si es sidebarOpen es verdadero se muestra el texto del menu */}
+                  {sidebarOpen && item.label}
+                </Typography>
               </ListItemButton>
             </ListItem>
           ))}
