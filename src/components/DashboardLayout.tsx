@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getUser, removeUser } from './LoginPage';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   Sheet, Box, List, ListItem, ListItemButton, Typography,
   IconButton, Avatar, Dropdown, Menu, MenuButton, MenuItem
@@ -15,6 +16,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [user, setUser] = useState(getUser());
   const navigate = useNavigate();
   const location = useLocation();
+  const isScreenWidthMoreThan600 = useMediaQuery('(min-width:600px) and (max-height:500px)');
 
   useEffect(() => {
     if (!user) {
@@ -41,17 +43,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Sidebar */}
       <Sheet
         sx={{
-          display: {xs:'flex',md:'flex'},
-          flexDirection: {xs:'row', md:'column'},
-          width: { xs: 80, sm: 80, md: sidebarOpen ? 280 : 80 },
-          // position: { xs: 'sticky', md: 'sticky' },
-          // top: { xs: 'auto', md: 'auto' },
-          // bottom: { xs: 'auto', md: 0 },
-          // height: { xs: '50vh', md: '100vh' },
+          // display: {xs:'flex',md:'flex'},
+          // flexDirection: {xs:'row', md:'column'},
+          width: { xs: 0, sm: 80, md: sidebarOpen ? 280 : 80 },
+          position: { xs: 'fixed', md: 'sticky' },
+          // top: { xs: 0, md: 0 },
+          bottom: { xs: 0, md: 'auto' },
+          // utilizamos el isScreenWidthMoreThan600 para que el sidebar no se oculte en mobile cuando esta en horizontal
+          height: { xs: isScreenWidthMoreThan600 ?'17vh':'7.5vh', md: '100vh' },
           transition: 'width 0.2s',
           zIndex: 1000,
           borderRight: '1px solid',
-          borderColor: 'divider'
+          borderColor: 'divider',
+          marginBottom: { xs: -2, sm: -2},
+          paddingBottom: { xs: 8, sm: 2}
           
         }}
       >
@@ -69,7 +74,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <Typography sx={{ display: { xs: 'none', md: 'block' } }}>Dashboard</Typography>
           )}
         </Box>
-        <List>
+        <List sx={{display: {xs:'flex',md:'flex'},
+          flexDirection: {xs:'row', md:'column'},
+          width: { xs: '100vw', md: '100%' },
+          // border: '1px solid',
+          backgroundColor: 'white',
+
+          // alignItems: 'center',
+          justifyContent: { xs: 'space-around'}
+          }}>
+
           {menuItems.map((item) => (
             <ListItem key={item.label}>
               <ListItemButton
