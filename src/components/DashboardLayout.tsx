@@ -1,60 +1,92 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { getUser, removeUser } from './LoginPage';
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
-  Sheet, Box, List, ListItem, ListItemButton, Typography,
-  IconButton, Avatar, Dropdown, Menu, MenuButton, MenuItem
-} from '@mui/joy';
+  Sheet,
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  Typography,
+  IconButton,
+  Avatar,
+  Dropdown,
+  Menu,
+  MenuButton,
+  MenuItem,
+} from "@mui/joy";
 import {
-  Home, LayoutDashboard, Calendar, LogOut,
-  Menu as MenuIcon
-} from 'lucide-react';
+  Home,
+  LayoutDashboard,
+  Calendar,
+  LogOut,
+  Menu as MenuIcon,
+  User,
+} from "lucide-react";
+import { UserAuth } from "../interfaces/user.interface";
+import { getAuthUser, signOut } from "../services/authService";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [user, setUser] = useState(getUser());
+  const [user, setUser] = useState<UserAuth | null>(getAuthUser());
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     if (!user) {
-      navigate('/');
+      navigate("/");
     }
   }, [user, navigate]);
 
   const handleLogout = () => {
-    removeUser();
     setUser(null);
-    navigate('/');
+    signOut();
+    navigate("/");
   };
 
   const menuItems = [
-    { icon: <LayoutDashboard size={20} />, label: 'Principal', path: '/dashboard' },
-    { icon: <Home size={20} />, label: 'Alojamientos', path: '/dashboard/accommodations' },
-    { icon: <Calendar size={20} />, label: 'Reservaciones', path: '/dashboard/reservations' },
+    {
+      icon: <LayoutDashboard size={20} />,
+      label: "Principal",
+      path: "/dashboard",
+    },
+    {
+      icon: <Home size={20} />,
+      label: "Alojamientos",
+      path: "/dashboard/accommodations",
+    },
+    {
+      icon: <Calendar size={20} />,
+      label: "Reservaciones",
+      path: "/dashboard/reservations",
+    },
+    { icon: <User size={20} />, label: "Usuarios", path: "/dashboard/users" },
   ];
 
   if (!user) return null;
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
       {/* Sidebar */}
       <Sheet
         sx={{
-          width: sidebarOpen ? 280 : 80,
-          position: { xs: 'fixed', md: 'sticky' },
+          minWidth: sidebarOpen ? 280 : 80,
+          position: { xs: "fixed", md: "sticky" },
           top: 0,
-          height: '100vh',
-          transition: 'width 0.2s',
+          height: "100vh",
+          transition: "width 0.2s",
           zIndex: 1000,
-          borderRight: '1px solid',
-          borderColor: 'divider',
+          borderRight: "1px solid",
+          borderColor: "divider",
         }}
       >
-        <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton 
-            variant="plain" 
-            color="neutral" 
+        <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 2 }}>
+          <IconButton
+            variant="plain"
+            color="neutral"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             <MenuIcon />
@@ -72,7 +104,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 onClick={() => navigate(item.path)}
                 sx={{
                   gap: sidebarOpen ? 2 : 0,
-                  justifyContent: sidebarOpen ? 'flex-start' : 'center',
+                  justifyContent: sidebarOpen ? "flex-start" : "center",
                 }}
               >
                 {item.icon}
@@ -84,18 +116,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </Sheet>
 
       {/* Contenido Principal */}
-      <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
         {/* Header */}
         <Sheet
           sx={{
             px: 2,
             py: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            borderBottom: '1px solid',
-            borderColor: 'divider',
-            position: 'sticky',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            borderBottom: "1px solid",
+            borderColor: "divider",
+            position: "sticky",
             top: 0,
             zIndex: 999,
           }}
@@ -103,17 +135,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <Dropdown>
             <MenuButton
               slots={{ root: IconButton }}
-              slotProps={{ root: { variant: 'plain', color: 'neutral' } }}
+              slotProps={{ root: { variant: "plain", color: "neutral" } }}
             >
               <Avatar
                 size="sm"
-                src={user?.avatar}
-                alt={user?.name}
+                src={user?.data?.avatar}
+                alt={user?.data?.name}
               />
             </MenuButton>
             <Menu placement="bottom-end">
-              <MenuItem>{user?.name}</MenuItem>
-              <MenuItem>{user?.email}</MenuItem>
+              <MenuItem>{user?.data?.name}</MenuItem>
+              <MenuItem>{user?.data?.email}</MenuItem>
               <MenuItem onClick={handleLogout}>
                 <LogOut size={16} />
                 Cerrar Sesión
@@ -123,9 +155,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </Sheet>
 
         {/* aca se ubica el contenido de la pagina a la derecha del menu */}
-        <Box sx={{ p: 3, flexGrow: 1 }}>
-          {children}
-        </Box>
+        <Box sx={{ p: 3, flexGrow: 1 }}>{children}</Box>
       </Box>
     </Box>
   );
