@@ -10,6 +10,7 @@ import DashboardLayout from './components/DashboardLayout';
 import Dashboard from './components/Dashboard';
 import Accommodations from './components/Accommodations';
 import Reservations from './components/Reservations';
+import BasicCalendar from './components/BasicCalendar';
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -26,6 +27,7 @@ function App() {
               <Route index element={<Dashboard />} />
               <Route path="accommodations" element={<Accommodations />} />
               <Route path="reservations" element={<Reservations />} />
+              <Route path="calendar" element={<BasicCalendar />} />
             </Routes>
           </DashboardLayout>} />
         </Routes>

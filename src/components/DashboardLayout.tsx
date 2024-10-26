@@ -30,15 +30,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     navigate('/');
   };
 
+  //aca se definen los items del menu
   const menuItems = [
     { icon: <LayoutDashboard size={20} />, label: 'Principal', path: '/dashboard' },
     { icon: <Home size={20} />, label: 'Alojamientos', path: '/dashboard/accommodations' },
     { icon: <Calendar size={20} />, label: 'Reservaciones', path: '/dashboard/reservations' },
+    { icon: <Calendar size={20} />, label: 'Calendario', path: '/dashboard/calendar' },
   ];
 
   if (!user) return null;
 
   return (
+    // este box define el contenido principal de la App incluido el sidebar, la barra donde se despliega el avatar de usuario y luego el contenido
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
       {/* Sidebar */}
       <Sheet
