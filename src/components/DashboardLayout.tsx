@@ -41,17 +41,21 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Sidebar */}
       <Sheet
         sx={{
-          width: sidebarOpen ? 280 : 80,
-          position: { xs: 'fixed', md: 'sticky' },
-          top: 0,
-          height: '100vh',
+          display: {xs:'flex',md:'flex'},
+          flexDirection: {xs:'row', md:'column'},
+          width: { xs: 80, sm: 80, md: sidebarOpen ? 280 : 80 },
+          // position: { xs: 'sticky', md: 'sticky' },
+          // top: { xs: 'auto', md: 'auto' },
+          // bottom: { xs: 'auto', md: 0 },
+          // height: { xs: '50vh', md: '100vh' },
           transition: 'width 0.2s',
           zIndex: 1000,
           borderRight: '1px solid',
-          borderColor: 'divider',
+          borderColor: 'divider'
+          
         }}
       >
-        <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Box sx={{ p: 2, display: {xs: 'none', md:'flex'}, alignItems: 'center', gap: 2 }}>
           <IconButton 
             variant="plain" 
             color="neutral" 
@@ -61,7 +65,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </IconButton>
           {sidebarOpen && (
             // <Typography level="h5">Dashboard</Typography>
-            <Typography>Dashboard</Typography>
+            // cuando el screen sea para mobile se oculta el texto
+            <Typography sx={{ display: { xs: 'none', md: 'block' } }}>Dashboard</Typography>
           )}
         </Box>
         <List>
@@ -71,12 +76,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 selected={location.pathname === item.path}
                 onClick={() => navigate(item.path)}
                 sx={{
-                  gap: sidebarOpen ? 2 : 0,
-                  justifyContent: sidebarOpen ? 'flex-start' : 'center',
+                  gap: {xs:0, md: sidebarOpen ? 2 : 0},
+                  justifyContent: { xs:'center', md: sidebarOpen ? 'flex-start' : 'center'},
                 }}
               >
                 {item.icon}
+                {/* cuando el screen sea para mobile se oculta el texto */}
+                <Typography
+                  sx={{ display: { xs: 'none', md: 'block' } }}
+                > 
+                {/* si es sidebarOpen es verdadero se muestra el texto del menu */}
                 {sidebarOpen && item.label}
+                </Typography>
               </ListItemButton>
             </ListItem>
           ))}
