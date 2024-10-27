@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { UserAuth } from "../interfaces/user.interface";
 import { getAuthUser, signOut } from "../services/authService";
+import { MotionDiv } from "./content/MotionDiv";
 
 export default function DashboardLayout({
   children,
@@ -121,7 +122,11 @@ export default function DashboardLayout({
           {sidebarOpen && (
             // <Typography level="h5">Dashboard</Typography>
             // cuando el screen sea para mobile se oculta el texto
-            <Typography sx={{ display: { xs: "none", md: "block" } }}>
+            <Typography
+              sx={{ display: { xs: "none", md: "block" } }}
+              fontWeight={600}
+              color="neutral"
+            >
               Dashboard
             </Typography>
           )}
@@ -138,28 +143,46 @@ export default function DashboardLayout({
             justifyContent: { xs: "space-around" },
           }}
         >
-          {menuItems.map((item) => (
-            <ListItem key={item.label}>
-              <ListItemButton
-                selected={location.pathname === item.path}
-                onClick={() => navigate(item.path)}
-                sx={{
-                  gap: { xs: 0, md: sidebarOpen ? 2 : 0 },
-                  justifyContent: {
-                    xs: "center",
-                    md: sidebarOpen ? "flex-start" : "center",
-                  },
-                }}
-              >
-                {item.icon}
-                {/* cuando el screen sea para mobile se oculta el texto */}
-                <Typography sx={{ display: { xs: "none", md: "block" } }}>
-                  {/* si es sidebarOpen es verdadero se muestra el texto del menu */}
-                  {sidebarOpen && item.label}
-                </Typography>
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {menuItems.map((item) => {
+            const isSelected = location.pathname === item.path;
+            return (
+              <ListItem key={item.label}>
+                <ListItemButton
+                  selected={isSelected}
+                  onClick={() => navigate(item.path)}
+                  sx={{
+                    gap: { xs: 0, md: sidebarOpen ? 2 : 0 },
+                    justifyContent: {
+                      xs: "center",
+                      md: sidebarOpen ? "flex-start" : "center",
+                    },
+                  }}
+                >
+                  <Typography
+                    level="body-md"
+                    fontWeight={500}
+                    sx={{
+                      color: isSelected ? "primary.400" : "gray",
+                    }}
+                  >
+                    {item.icon}
+                  </Typography>
+                  {/* cuando el screen sea para mobile se oculta el texto */}
+                  <Typography
+                    fontWeight={600}
+                    level="body-sm"
+                    sx={{
+                      display: { xs: "none", md: "block" },
+                      color: isSelected ? "primary.400" : "gray",
+                    }}
+                  >
+                    {/* si es sidebarOpen es verdadero se muestra el texto del menu */}
+                    {sidebarOpen && item.label}
+                  </Typography>
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
       </Sheet>
 
@@ -192,12 +215,14 @@ export default function DashboardLayout({
               />
             </MenuButton>
             <Menu placement="bottom-end">
-              <MenuItem>{user?.data?.name}</MenuItem>
-              <MenuItem>{user?.data?.email}</MenuItem>
-              <MenuItem onClick={handleLogout}>
-                <LogOut size={16} />
-                Cerrar Sesión
-              </MenuItem>
+              <MotionDiv animation="slideFade">
+                <MenuItem>{user?.data?.name}</MenuItem>
+                <MenuItem>{user?.data?.email}</MenuItem>
+                <MenuItem onClick={handleLogout}>
+                  <LogOut size={16} />
+                  Cerrar Sesión
+                </MenuItem>
+              </MotionDiv>
             </Menu>
           </Dropdown>
         </Sheet>

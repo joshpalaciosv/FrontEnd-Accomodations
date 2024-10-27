@@ -1,5 +1,14 @@
-import { Sheet, Typography, Stack, Box } from "@mui/joy";
-import { LogIn } from "lucide-react";
+import { Sheet, Typography, Stack, Box, Button } from "@mui/joy";
+import { Link } from "react-router-dom";
+
+// Icons
+import { FaReact } from "react-icons/fa";
+import { BiLogoTypescript } from "react-icons/bi";
+import { SiMui } from "react-icons/si";
+import { ImGithub } from "react-icons/im";
+import { BookKey, Code, LogIn } from "lucide-react";
+
+// Components
 import { SignInForm } from "../../components/SignInForm";
 import { MotionDiv } from "../../components/content/MotionDiv";
 
@@ -7,6 +16,71 @@ import { MotionDiv } from "../../components/content/MotionDiv";
 export default function SignInPage() {
   return (
     <MotionDiv>
+      {/* Header */}
+      <Box
+        component="nav"
+        role="navigation"
+        sx={{
+          backgroundColor: "white",
+          position: "fixed",
+          top: 0,
+          right: 0,
+          zIndex: 999,
+          gap: 2,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          boxShadow: "lg",
+          padding: "1rem 1.5rem",
+          width: "100%",
+        }}
+      >
+        <Typography
+          level="title-md"
+          textAlign="center"
+          fontWeight={600}
+          sx={{
+            fontSize: {
+              xs: "14px",
+              md: "16px",
+            },
+          }}
+          startDecorator={<BookKey className="text-cyan-500" />}
+        >
+          Panel de Control
+        </Typography>
+        <Box>
+          <Link
+            target="_blank"
+            to="https://github.com/joshpalaciosv/FrontEnd-Accomodations"
+          >
+            <Button
+              variant="outlined"
+              color="neutral"
+              sx={{ borderRadius: "full" }}
+            >
+              <ImGithub size={20} className="text-slate-600" />
+            </Button>
+          </Link>
+        </Box>
+        <Box>
+          <Link to="/">
+            <Button
+              variant="outlined"
+              color="neutral"
+              sx={{
+                borderRadius: "full",
+                fontSize: {
+                  xs: "14px",
+                  md: "14px",
+                },
+              }}
+            >
+              Iniciar Sesión
+            </Button>
+          </Link>
+        </Box>
+      </Box>
       <Box
         sx={{
           px: {
@@ -14,10 +88,12 @@ export default function SignInPage() {
             md: 10,
           },
           display: "flex",
-          minHeight: "100vh",
+          height: "100vh",
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "paper",
+          backgroundImage: "url(/assets/backgrounds/bg-wave.webp)",
+          minHeight: "800px",
         }}
       >
         <Sheet
@@ -106,6 +182,54 @@ export default function SignInPage() {
             }}
           ></Box>
         </Sheet>
+      </Box>
+      {/* Footer */}
+      <Box
+        component="footer"
+        sx={{
+          backgroundColor: "white",
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          zIndex: 999,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          boxShadow: "lg",
+          padding: "1rem 1.5rem",
+          width: "100%",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            flexDirection: {
+              md: "row",
+            },
+            gap: 1,
+          }}
+        >
+          <Typography
+            level="title-md"
+            textAlign="center"
+            fontWeight={500}
+            startDecorator={<Code className="text-slate-600" />}
+            sx={{
+              fontSize: {
+                xs: "14px",
+                md: "16px",
+              },
+            }}
+          >
+            Desarrollado usando
+          </Typography>
+          <FaReact className="text-cyan-500" size={25} />
+          <BiLogoTypescript className="text-blue-500" size={25} />
+          <SiMui className="text-blue-500" size={25} />
+        </Box>
+        <Box></Box>
       </Box>
     </MotionDiv>
   );
