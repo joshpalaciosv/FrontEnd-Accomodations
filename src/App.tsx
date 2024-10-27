@@ -11,6 +11,7 @@ import Accommodations from "./components/Accommodations";
 import Reservations from "./components/Reservations";
 import { PageNotFound, SignInPage, UsersPage } from "./pages";
 import theme from "./theme";
+import BasicCalendar from "./components/BasicCalendar";
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -32,6 +33,7 @@ function App() {
                     <Route path="reservations" element={<Reservations />} />
                     <Route path="users" element={<UsersPage />} />
                     <Route path="*" element={<PageNotFound />} />
+                    <Route path="calendar" element={<BasicCalendar />} />
                   </Routes>
                 </DashboardLayout>
               }

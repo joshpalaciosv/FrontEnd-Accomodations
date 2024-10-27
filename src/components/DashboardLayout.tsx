@@ -51,6 +51,7 @@ export default function DashboardLayout({
     navigate("/");
   };
 
+  //aca se definen los items del menu
   const menuItems = [
     {
       icon: <LayoutDashboard size={20} />,
@@ -68,11 +69,17 @@ export default function DashboardLayout({
       path: "/dashboard/reservations",
     },
     { icon: <User size={20} />, label: "Usuarios", path: "/dashboard/users" },
+    {
+      icon: <Calendar size={20} />,
+      label: "Calendario",
+      path: "/dashboard/calendar",
+    },
   ];
 
   if (!user) return null;
 
   return (
+    // este box define el contenido principal de la App incluido el sidebar, la barra donde se despliega el avatar de usuario y luego el contenido
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       {/* Sidebar */}
       <Sheet
