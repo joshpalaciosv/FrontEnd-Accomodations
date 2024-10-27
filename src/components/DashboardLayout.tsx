@@ -1,82 +1,162 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { getUser, removeUser } from './LoginPage';
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import {
-  Sheet, Box, List, ListItem, ListItemButton, Typography,
-  IconButton, Avatar, Dropdown, Menu, MenuButton, MenuItem
-} from '@mui/joy';
+  Sheet,
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  Typography,
+  IconButton,
+  Avatar,
+  Dropdown,
+  Menu,
+  MenuButton,
+  MenuItem,
+} from "@mui/joy";
 import {
-  Home, LayoutDashboard, Calendar, LogOut,
-  Menu as MenuIcon
-} from 'lucide-react';
+  Home,
+  LayoutDashboard,
+  Calendar,
+  LogOut,
+  Menu as MenuIcon,
+  User,
+} from "lucide-react";
+import { UserAuth } from "../interfaces/user.interface";
+import { getAuthUser, signOut } from "../services/authService";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [user, setUser] = useState(getUser());
+  const [user, setUser] = useState<UserAuth | null>(getAuthUser());
   const navigate = useNavigate();
   const location = useLocation();
+  const isScreenWidthMoreThan600 = useMediaQuery(
+    "(min-width:600px) and (max-height:500px)",
+  );
 
   useEffect(() => {
     if (!user) {
-      navigate('/');
+      navigate("/");
     }
   }, [user, navigate]);
 
   const handleLogout = () => {
-    removeUser();
     setUser(null);
-    navigate('/');
+    signOut();
+    navigate("/");
   };
 
+  //aca se definen los items del menu
   const menuItems = [
-    { icon: <LayoutDashboard size={20} />, label: 'Principal', path: '/dashboard' },
-    { icon: <Home size={20} />, label: 'Alojamientos', path: '/dashboard/accommodations' },
-    { icon: <Calendar size={20} />, label: 'Reservaciones', path: '/dashboard/reservations' },
+    {
+      icon: <LayoutDashboard size={20} />,
+      label: "Principal",
+      path: "/dashboard",
+    },
+    {
+      icon: <Home size={20} />,
+      label: "Alojamientos",
+      path: "/dashboard/accommodations",
+    },
+    {
+      icon: <Calendar size={20} />,
+      label: "Reservaciones",
+      path: "/dashboard/reservations",
+    },
+    { icon: <User size={20} />, label: "Usuarios", path: "/dashboard/users" },
+    {
+      icon: <Calendar size={20} />,
+      label: "Calendario",
+      path: "/dashboard/calendar",
+    },
   ];
 
   if (!user) return null;
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+    // este box define el contenido principal de la App incluido el sidebar, la barra donde se despliega el avatar de usuario y luego el contenido
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
       {/* Sidebar */}
       <Sheet
         sx={{
-          width: sidebarOpen ? 280 : 80,
-          position: { xs: 'fixed', md: 'sticky' },
-          top: 0,
-          height: '100vh',
-          transition: 'width 0.2s',
+          // display: {xs:'flex',md:'flex'},
+          // flexDirection: {xs:'row', md:'column'},
+          minWidth: { xs: 0, sm: 80, md: sidebarOpen ? 280 : 80 },
+          position: { xs: "fixed", md: "sticky" },
+          // top: { xs: 0, md: 0 },
+          bottom: { xs: 0, md: "auto" },
+          // utilizamos el isScreenWidthMoreThan600 para que el sidebar no se oculte en mobile cuando esta en horizontal
+          height: {
+            xs: isScreenWidthMoreThan600 ? "17vh" : "7.5vh",
+            md: "100vh",
+          },
+          transition: "width 0.2s",
           zIndex: 1000,
-          borderRight: '1px solid',
-          borderColor: 'divider',
+          borderRight: "1px solid",
+          borderColor: "divider",
+          marginBottom: { xs: -2, sm: -2 },
+          paddingBottom: { xs: 8, sm: 2 },
         }}
       >
-        <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton 
-            variant="plain" 
-            color="neutral" 
+        <Box
+          sx={{
+            p: 2,
+            display: { xs: "none", md: "flex" },
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <IconButton
+            variant="plain"
+            color="neutral"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             <MenuIcon />
           </IconButton>
           {sidebarOpen && (
             // <Typography level="h5">Dashboard</Typography>
-            <Typography>Dashboard</Typography>
+            // cuando el screen sea para mobile se oculta el texto
+            <Typography sx={{ display: { xs: "none", md: "block" } }}>
+              Dashboard
+            </Typography>
           )}
         </Box>
-        <List>
+        <List
+          sx={{
+            display: { xs: "flex", md: "flex" },
+            flexDirection: { xs: "row", md: "column" },
+            width: { xs: "100vw", md: "100%" },
+            // border: '1px solid',
+            backgroundColor: "white",
+
+            // alignItems: 'center',
+            justifyContent: { xs: "space-around" },
+          }}
+        >
           {menuItems.map((item) => (
             <ListItem key={item.label}>
               <ListItemButton
                 selected={location.pathname === item.path}
                 onClick={() => navigate(item.path)}
                 sx={{
-                  gap: sidebarOpen ? 2 : 0,
-                  justifyContent: sidebarOpen ? 'flex-start' : 'center',
+                  gap: { xs: 0, md: sidebarOpen ? 2 : 0 },
+                  justifyContent: {
+                    xs: "center",
+                    md: sidebarOpen ? "flex-start" : "center",
+                  },
                 }}
               >
                 {item.icon}
-                {sidebarOpen && item.label}
+                {/* cuando el screen sea para mobile se oculta el texto */}
+                <Typography sx={{ display: { xs: "none", md: "block" } }}>
+                  {/* si es sidebarOpen es verdadero se muestra el texto del menu */}
+                  {sidebarOpen && item.label}
+                </Typography>
               </ListItemButton>
             </ListItem>
           ))}
@@ -84,18 +164,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </Sheet>
 
       {/* Contenido Principal */}
-      <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
         {/* Header */}
         <Sheet
           sx={{
             px: 2,
             py: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            borderBottom: '1px solid',
-            borderColor: 'divider',
-            position: 'sticky',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            borderBottom: "1px solid",
+            borderColor: "divider",
+            position: "sticky",
             top: 0,
             zIndex: 999,
           }}
@@ -103,17 +183,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <Dropdown>
             <MenuButton
               slots={{ root: IconButton }}
-              slotProps={{ root: { variant: 'plain', color: 'neutral' } }}
+              slotProps={{ root: { variant: "plain", color: "neutral" } }}
             >
               <Avatar
                 size="sm"
-                src={user?.avatar}
-                alt={user?.name}
+                src={user?.data?.avatar}
+                alt={user?.data?.name}
               />
             </MenuButton>
             <Menu placement="bottom-end">
-              <MenuItem>{user?.name}</MenuItem>
-              <MenuItem>{user?.email}</MenuItem>
+              <MenuItem>{user?.data?.name}</MenuItem>
+              <MenuItem>{user?.data?.email}</MenuItem>
               <MenuItem onClick={handleLogout}>
                 <LogOut size={16} />
                 Cerrar Sesión
@@ -123,9 +203,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </Sheet>
 
         {/* aca se ubica el contenido de la pagina a la derecha del menu */}
-        <Box sx={{ p: 3, flexGrow: 1 }}>
-          {children}
-        </Box>
+        <Box sx={{ p: 3, flexGrow: 1 }}>{children}</Box>
       </Box>
     </Box>
   );
