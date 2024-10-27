@@ -74,7 +74,12 @@ export const getAuthUser = (): UserAuth | null => {
       return {
         user: parsedUser.email,
         token,
-        data: parsedUser,
+        data: {
+          // Una copia del objeto original con los datos del usuario
+          ...parsedUser,
+          // Le añado un avatar random
+          avatar: "https://picsum.photos/200",
+        },
       };
     } catch (error) {
       console.error("Error parsing user data:", error);

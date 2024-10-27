@@ -23,6 +23,7 @@ function UsersPage() {
     setIsOpen((prev) => !prev);
   };
 
+  // Custom button component for actions column in table
   const CustomButtonComponent = (params: { data: User }) => {
     const handleClick = () => {
       // Establece el usuario seleccionado al hacer clic
@@ -47,6 +48,7 @@ function UsersPage() {
     );
   };
 
+  // Get all users from API
   useEffect(() => {
     getAllUsers()
       .then((data) => {
@@ -60,6 +62,7 @@ function UsersPage() {
       });
   }, []);
 
+  // Column definitions for the table and filtering
   const columnDefs: ColDef[] = [
     { field: "id", headerName: "ID", filter: "agNumberColumnFilter" },
     { field: "name", headerName: "Nombre" },
@@ -68,7 +71,7 @@ function UsersPage() {
       headerName: "Correo Electrónico",
       filter: "agTextColumnFilter",
     },
-    // Buttons para acciones
+    // Action buttons
     {
       field: "actions",
       headerName: "Acciones",
@@ -113,7 +116,7 @@ function UsersPage() {
         </Typography>
 
         {isLoading ? (
-          <TableSkeleton rowCount={5} columnCount={1} />
+          <TableSkeleton rowCount={8} columnCount={1} />
         ) : (
           <MotionDiv className="flex max-w-full flex-col items-center justify-center">
             <EnhancedTable<User>

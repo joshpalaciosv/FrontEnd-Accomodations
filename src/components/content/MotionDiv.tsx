@@ -1,13 +1,15 @@
 import { HTMLMotionProps, motion } from "framer-motion";
 
-const animations = {
+const animations: Record<string, HTMLMotionProps<"div">> = {
   fade: {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
+    exit: { opacity: 0 },
   },
   slideFade: {
     initial: { y: -16, opacity: 0 },
     animate: { y: 0, opacity: 1 },
+    exit: { opacity: 0, y: -16 },
   },
 };
 

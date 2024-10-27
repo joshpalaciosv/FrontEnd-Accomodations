@@ -15,7 +15,7 @@ const TableSkeleton = ({
       <Box sx={{ display: "flex", mb: 1 }}>
         {[...Array(columnCount)].map((_, index) => (
           <Box key={index} sx={{ flex: 1, px: 1 }}>
-            <Skeleton variant="rectangular" width="100%" height={55} />
+            <Skeleton variant="rectangular" width="100%" height={70} />
           </Box>
         ))}
       </Box>
@@ -24,7 +24,7 @@ const TableSkeleton = ({
         <Box key={rowIndex} sx={{ display: "flex", mb: 0.5 }}>
           {[...Array(columnCount)].map((_, colIndex) => (
             <Box key={colIndex} sx={{ flex: 1, px: 1 }}>
-              <Skeleton variant="rectangular" width="100%" height={30} />
+              <Skeleton variant="rectangular" width="100%" height={35} />
             </Box>
           ))}
         </Box>
