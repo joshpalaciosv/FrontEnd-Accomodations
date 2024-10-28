@@ -1,10 +1,10 @@
-import { Bookings } from "../interfaces/accommodations.interface";
+import { Accommodation } from "../interfaces/accommodations.interface";
 import { apiBookings } from "./apiBookings";
 
 // NO ES MI PARTE, LO QUITARÍA DE MI RAMA, SOLAMENTE ES UNA PRUEBA.
 
 // Se podría enviar el token por parámetro´o tomarlo de sessionStorage
-export const getAllBookings = async (): Promise<Bookings[]> => {
+export const getAllBookings = async (): Promise<Accommodation[]> => {
   // Se podría verificar desde el session storage si tiene el token, antes de hacer la petición
   if (!apiBookings.defaults.headers.common["Authorization"]) {
     throw new Error("No se ha encontrado un Token");
@@ -15,7 +15,7 @@ export const getAllBookings = async (): Promise<Bookings[]> => {
   // }
 
   // **Accommodations**
-  const { data } = await apiBookings.get<Bookings[]>("/api/V1/accomodations");
+  const { data } = await apiBookings.get<Accommodation[]>("/api/V1/accomodations");
   return data;
 
   // Si es que no está asignada en la instancia de apiBookings
