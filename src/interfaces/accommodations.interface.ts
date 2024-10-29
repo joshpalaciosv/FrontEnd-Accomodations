@@ -1,4 +1,3 @@
-// NO ES MI PARTE, LO QUITARÍA DE MI RAMA, SOLAMENTE ES UNA PRUEBA.
 export interface Accommodation {
   id: number;
   name: string;
