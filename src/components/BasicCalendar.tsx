@@ -2,6 +2,7 @@ import moment from "moment";
 import Calendar from "./Calendar";
 import { Box, Typography } from '@mui/joy';
 // import { BarChart3, TrendingUp, Eye, Clock } from 'lucide-react';
+import { getCalendarEntries } from "../services/calendarService";
 
 const events = [
   {
@@ -15,6 +16,8 @@ const events = [
     title: "ENT Appointment",
   },
 ];
+
+getCalendarEntries();
 
 // export default function BasicCalendar() {
 //   return <Calendar events={events} />;
