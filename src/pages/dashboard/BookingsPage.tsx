@@ -1,4 +1,4 @@
-import { Box, Typography, IconButton } from "@mui/joy";
+import { Box, IconButton } from "@mui/joy";
 import EnhancedTable from "../../components/tables/EnhancedTable";
 import { useEffect, useState } from "react";
 import { Booking } from "../../interfaces/booking.interface";
@@ -9,30 +9,36 @@ import { MotionDiv } from "../../components/content/MotionDiv";
 import MainModal from "../../components/modals/MainModal";
 import { Eye } from "lucide-react";
 import { MoBooking } from "../../components/modals/content/MoBooking";
-
+import { BreadCrumb } from "../../components/BreadCrumb";
 
 function BookingsPage() {
-    const [bookingsData, setBookingsData] = useState<Booking[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+  const [bookingsData, setBookingsData] = useState<Booking[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-    // Modal content
-    const [isOpen, setIsOpen] = useState(false);
-    const [bookingSelected, setBookingSelected] = useState<Booking | null>(null);
+  // Modal content
+  const [isOpen, setIsOpen] = useState(false);
+  const [bookingSelected, setBookingSelected] = useState<Booking | null>(null);
 
+  const handleModal = () => {
+    setIsOpen((prev) => !prev);
+  };
 
-    const handleModal = () => {
-        setIsOpen((prev) => !prev);
-    };
-    
-    const CustomButtonComponent = (params: { data: Booking }) => {
-        const handleClick = () => {
-            setBookingSelected(params.data);
-        handleModal();
+  const CustomButtonComponent = (params: { data: Booking }) => {
+    const handleClick = () => {
+      setBookingSelected(params.data);
+      handleModal();
     };
 
     return (
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <IconButton variant="soft" color="primary" onClick={handleClick} size="sm">
+      <Box
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        <IconButton
+          variant="soft"
+          color="primary"
+          onClick={handleClick}
+          size="sm"
+        >
           <Eye />
         </IconButton>
       </Box>
@@ -57,10 +63,10 @@ function BookingsPage() {
     { field: "id", headerName: "ID", filter: "agNumberColumnFilter" },
     { field: "booking", headerName: "Código" },
     { field: "accomodation", headerName: "Reservación" },
-    { 
-        field: "total_amount", 
-        headerName: "Total", 
-        valueFormatter: (params) => `$${params.value.toFixed(2)}` // Agregando el signo $
+    {
+      field: "total_amount",
+      headerName: "Total",
+      valueFormatter: (params) => `$${params.value.toFixed(2)}`, // Agregando el signo $
     },
     { field: "status", headerName: "Estado" },
     {
@@ -75,8 +81,14 @@ function BookingsPage() {
 
   return (
     <MotionDiv>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 3, width: { xs: "100%", md: "100%" } }}>
-        
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 3,
+          width: { xs: "100%", md: "100%" },
+        }}
+      >
         <MainModal
           isOpen={isOpen}
           handleModal={handleModal}
@@ -84,18 +96,18 @@ function BookingsPage() {
             <MoBooking
               booking={
                 bookingSelected ?? {
-                    id: 0,
-                    booking: "No seleccionado",
-                    check_in_date: fecha,
-                    check_out_date: fecha,
-                    total_amount: 0,
-                    status: "No seleccionado",
-                    accomodation_id: 0,
-                    user_id: 0,
-                    created_at: fecha,
-                    updated_at: fecha,
-                    user: "No seleccionado",
-                    accomodation: "No seleccionado",
+                  id: 0,
+                  booking: "No seleccionado",
+                  check_in_date: fecha,
+                  check_out_date: fecha,
+                  total_amount: 0,
+                  status: "No seleccionado",
+                  accomodation_id: 0,
+                  user_id: 0,
+                  created_at: fecha,
+                  updated_at: fecha,
+                  user: "No seleccionado",
+                  accomodation: "No seleccionado",
                 }
               }
             />
@@ -104,9 +116,11 @@ function BookingsPage() {
           ariaDescribedBy="View profile information and bookings"
         />
 
-        <Typography level="h2" mb={3}>
-          Lista de Reservaciones
-        </Typography>
+        <BreadCrumb
+          title="Lista de Reservaciones"
+          subtitle="Todas las reservaciones realizadas"
+          imgSrc="/assets/backgrounds/decameron.webp"
+        />
 
         {isLoading ? (
           <TableSkeleton rowCount={8} columnCount={1} />

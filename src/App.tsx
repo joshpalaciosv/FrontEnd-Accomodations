@@ -6,10 +6,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CssVarsProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import DashboardLayout from "./components/DashboardLayout";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./pages/Dashboard";
 //import Accommodations from "./components/Accommodations";
 //import Reservations from "./components/Reservations";
-import { PageNotFound, SignInPage, UsersPage, AccommodationsPage, BookingsPage } from "./pages";
+import {
+  PageNotFound,
+  SignInPage,
+  UsersPage,
+  AccommodationsPage,
+  BookingsPage,
+} from "./pages";
 import theme from "./theme";
 import BasicCalendar from "./components/BasicCalendar";
 
@@ -29,7 +35,10 @@ function App() {
                 <DashboardLayout>
                   <Routes>
                     <Route index element={<Dashboard />} />
-                    <Route path="accommodations" element={<AccommodationsPage />} />
+                    <Route
+                      path="accommodations"
+                      element={<AccommodationsPage />}
+                    />
                     <Route path="reservations" element={<BookingsPage />} />
                     <Route path="users" element={<UsersPage />} />
                     <Route path="*" element={<PageNotFound />} />

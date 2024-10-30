@@ -139,28 +139,6 @@ export default function SignInPage() {
             </Typography>
 
             <SignInForm />
-            <Box
-              display="flex"
-              flexDirection="column"
-              gap={2}
-              mt={4}
-              width="100%"
-            >
-              <Typography level="body-sm" textAlign="center">
-                kade40@example.com
-              </Typography>
-              <Typography
-                level="body-sm"
-                textAlign="center"
-                width="100%"
-                sx={{
-                  overflowWrap: "break-word",
-                  wordBreak: "break-all",
-                }}
-              >
-                $2y$12$uYSt7J5Zwqho9cUpTkWCW.I4OVojaUjwxHMBZs4DBc48xvH.6Rnxa
-              </Typography>
-            </Box>
           </Stack>
           <Box
             sx={{
