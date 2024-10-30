@@ -228,7 +228,7 @@ export default function DashboardLayout({
         </Sheet>
 
         {/* aca se ubica el contenido de la pagina a la derecha del menu */}
-        <Box sx={{ p: 3, flexGrow: 1 }}>{children}</Box>
+        <Box sx={{ p: 3, flexGrow: 1, mb: 4 }}>{children}</Box>
       </Box>
     </Box>
   );

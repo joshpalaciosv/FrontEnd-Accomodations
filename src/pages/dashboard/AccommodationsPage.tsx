@@ -1,4 +1,4 @@
-import { Box, Typography, IconButton } from "@mui/joy";
+import { Box, IconButton } from "@mui/joy";
 import EnhancedTable from "../../components/tables/EnhancedTable";
 import { useEffect, useState } from "react";
 import { Accommodation } from "../../interfaces/accommodations.interface";
@@ -9,17 +9,18 @@ import { MotionDiv } from "../../components/content/MotionDiv";
 import MainModal from "../../components/modals/MainModal";
 import { Eye } from "lucide-react";
 import { MoAccommodation } from "../../components/modals/content/MoAccommodation";
-
+import { BreadCrumb } from "../../components/BreadCrumb";
 
 function AccommodationsPage() {
-  
-  const [accommodationsData, setAccommodationsData] = useState<Accommodation[]>([]);
+  const [accommodationsData, setAccommodationsData] = useState<Accommodation[]>(
+    [],
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   // Modal content
   const [isOpen, setIsOpen] = useState(false);
-  const [accommodationSelected, setAccommodationSelected] = useState<Accommodation | null>(null);
-
+  const [accommodationSelected, setAccommodationSelected] =
+    useState<Accommodation | null>(null);
 
   const handleModal = () => {
     setIsOpen((prev) => !prev);
@@ -32,8 +33,15 @@ function AccommodationsPage() {
     };
 
     return (
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <IconButton variant="soft" color="primary" onClick={handleClick} size="sm">
+      <Box
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        <IconButton
+          variant="soft"
+          color="primary"
+          onClick={handleClick}
+          size="sm"
+        >
           <Eye />
         </IconButton>
       </Box>
@@ -71,8 +79,14 @@ function AccommodationsPage() {
 
   return (
     <MotionDiv>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 3, width: { xs: "100%", md: "100%" } }}>
-        
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 3,
+          width: { xs: "100%", md: "100%" },
+        }}
+      >
         <MainModal
           isOpen={isOpen}
           handleModal={handleModal}
@@ -94,10 +108,12 @@ function AccommodationsPage() {
           ariaLabelledBy="Profile on booking accommodations"
           ariaDescribedBy="View profile information and bookings"
         />
-        
-        <Typography level="h2" mb={3}>
-          Lista de Alojamientos
-        </Typography>
+
+        <BreadCrumb
+          title="Lista de Alojamientos"
+          subtitle="Todas las habitaciones disponibles"
+          imgSrc="/assets/backgrounds/mazatlan.webp"
+        />
 
         {isLoading ? (
           <TableSkeleton rowCount={8} columnCount={1} />

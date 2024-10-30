@@ -1,50 +1,63 @@
-# React + TypeScript + Vite
+# Panel de reservaciones - React + TypeScript + Material UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Tarea asignado en Kodigo Academy.
 
-Currently, two official plugins are available:
+#### Integrantes
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- luis nativi
+- Marcela Carolina Menjívar Gutiérrez
+- [Marcos Alfaro](https://github.com/1frencho)
+- Orlando Josue Palacios Valladares
+- Oscar Miguel Lara Zelaya
+- Erick Alexander Montoya Cruz
 
-## Expanding the ESLint configuration
+## Sistema de Reservaciones junto a la API asignada:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### https://apibookingsaccomodations-production.up.railway.app/api/documentation
 
-- Configure the top-level `parserOptions` property like this:
+### Panel de Control
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+<img src="./presentation/dashboard.png" alt="Dashboard Desktop" width="100%">
+
+### Tablas usadas:
+
+#### AG-Grid-Community (Tablas)
+
+- Filtros
+- Orden de columnas
+- Búsqueda de texto
+- Paginación
+
+<img src="./presentation/users.png" alt="Users Table" width="100%">
+
+### Inicio de Sesión
+
+#### Autenticación basada:
+
+- Token
+- Sesión de usuario
+- Peticiones usando AXIOS hacia los EndPoints asignados con Token de Autorización.
+
+<img src="./presentation/signIn.png" alt="Sign In Desktop" width="100%">
+
+## Librerías y paquetes usados:
+
+- Tailwind CSS
+- Material Joy UI
+- Ag-grid-community (Tablas)
+- Framer Motion
+- React Hook Form (Task applied on Auth Form)
+- Yup with React Hook Form
+- React Router
+- React Icons
+- Redux Toolkit
+
+## Trabajo en el área de trabajo:
+
+```
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```
+npm run dev
 ```

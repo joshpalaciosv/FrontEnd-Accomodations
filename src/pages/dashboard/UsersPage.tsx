@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography } from "@mui/joy";
+import { Box, IconButton } from "@mui/joy";
 import EnhancedTable from "../../components/tables/EnhancedTable";
 import { useEffect, useState } from "react";
 import { User } from "../../interfaces/user.interface";
@@ -9,6 +9,7 @@ import { MotionDiv } from "../../components/content/MotionDiv";
 import MainModal from "../../components/modals/MainModal";
 import { Eye } from "lucide-react";
 import { MoUserProfile } from "../../components/modals/content/MoUserProfile";
+import { BreadCrumb } from "../../components/BreadCrumb";
 
 function UsersPage() {
   // Data tables
@@ -111,9 +112,11 @@ function UsersPage() {
           ariaLabelledBy="Profile on booking accommodations"
           ariaDescribedBy="View profile information and bookings"
         />
-        <Typography level="h2" mb={3}>
-          Lista de Usuarios
-        </Typography>
+        <BreadCrumb
+          title="Lista de Usuarios"
+          subtitle="Todos los usuarios registrados"
+          imgSrc="/assets/backgrounds/mazatlan.webp"
+        />
 
         {isLoading ? (
           <TableSkeleton rowCount={8} columnCount={1} />
