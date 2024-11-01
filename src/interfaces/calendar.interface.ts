@@ -15,4 +15,10 @@ export interface CalendarBooking {
     updated_at : Date;
     user_id : number;
   }
+
+export interface CalendarEntry { 
+    start: Date;
+    end: Date;
+    title: string;
+}
   
