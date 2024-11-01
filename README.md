@@ -32,7 +32,7 @@
 
 ### Inicio de Sesión
 
-<img src="./presentation/signIn.png" alt="Sign In Desktop" width="100%">
+<img src="./presentation/signIn2.png" alt="Sign In Desktop" width="100%">
 
 #### Autenticación basada:
 
