@@ -1,10 +1,10 @@
 # Panel de reservaciones - React + TypeScript + Material UI
 
-Tarea asignado en Kodigo Academy.
+- Academia de Kodigo.
+  Tarea asignada como parte del bootcamp de Full Stack Jr
 
 #### Integrantes
 
-- luis nativi
 - Marcela Carolina Menjívar Gutiérrez
 - [Marcos Alfaro](https://github.com/1frencho)
 - Orlando Josue Palacios Valladares
@@ -19,7 +19,9 @@ Tarea asignado en Kodigo Academy.
 
 <img src="./presentation/dashboard.png" alt="Dashboard Desktop" width="100%">
 
-### Tablas usadas:
+### Resumen de datos por tablas:
+
+<img src="./presentation/users.png" alt="Users Table" width="100%">
 
 #### AG-Grid-Community (Tablas)
 
@@ -28,9 +30,9 @@ Tarea asignado en Kodigo Academy.
 - Búsqueda de texto
 - Paginación
 
-<img src="./presentation/users.png" alt="Users Table" width="100%">
-
 ### Inicio de Sesión
+
+<img src="./presentation/signIn.png" alt="Sign In Desktop" width="100%">
 
 #### Autenticación basada:
 
@@ -38,21 +40,18 @@ Tarea asignado en Kodigo Academy.
 - Sesión de usuario
 - Peticiones usando AXIOS hacia los EndPoints asignados con Token de Autorización.
 
-<img src="./presentation/signIn.png" alt="Sign In Desktop" width="100%">
-
 ## Librerías y paquetes usados:
 
 - Tailwind CSS
 - Material Joy UI
-- Ag-grid-community (Tablas)
+- Ag-grid Edición de comunidad (Tablas)
 - Framer Motion
-- React Hook Form (Task applied on Auth Form)
-- Yup with React Hook Form
+- React Hook Form
+- Yup con React Hook Form
 - React Router
 - React Icons
-- Redux Toolkit
 
-## Trabajo en el área de trabajo:
+## Desarrollo en el área de trabajo:
 
 ```
 npm install
