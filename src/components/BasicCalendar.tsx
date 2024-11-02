@@ -44,7 +44,7 @@ export default function BasicCalendar() {
         const accommodationsList = await getAllAccommodations();
         // llenamos el estado con la lista de alojamientos
         setAccommodations(accommodationsList);
-        console.log("State accommodations:", accommodations);
+        //console.log("State accommodations:", accommodations);
 
         } catch (error) {
           console.error("Error fetchi Alojamientos:", error);
@@ -62,8 +62,17 @@ export default function BasicCalendar() {
      useEffect(() => {
        const fetchEvents = async () => {
         setLoadingCalendar(true);
+        //console.log("Antes de Trraer eventos", selectedAccommodation);
+
+        // Si no hay alojamiento seleccionado, no hacemos nada
+        if (!selectedAccommodation) {
+          setLoadingCalendar(false);
+          return;
+        }
         try { 
          const calendarEntries = await getCalendarEntries(selectedAccommodation);
+         //console.log("Calendar Entries:", calendarEntries);
+
          setEvents(calendarEntries);
          
          setMonthEntries([]); // Reiniciamos el estado de los meses
@@ -111,7 +120,7 @@ export default function BasicCalendar() {
           >
             <Option value="0" disabled>Seleccionar Alojamiento</Option>
             {accommodations.map(accommodation => (
-            <Option value={accommodation.id}>
+            <Option key={accommodation.id} value={accommodation.id}>
               {accommodation.name}
             </Option>
           ))}

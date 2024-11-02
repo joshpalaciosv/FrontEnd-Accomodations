@@ -20,5 +20,6 @@ export interface CalendarEntry {
     start: Date;
     end: Date;
     title: string;
+    status: string;
 }
   

@@ -1,6 +1,7 @@
 import moment from "moment";
 import { CalendarBooking, CalendarEntry } from "../interfaces/calendar.interface";
 import { apiBookings } from "./apiBookings";
+import axios from "axios";
 
 export const getCalendarEntries = async (accomodationId?: string) => {
    try {
@@ -21,21 +22,19 @@ export const getCalendarEntries = async (accomodationId?: string) => {
           try {
                
               // obtenemos las reservas del alojamiento indicado en el accomodationId
-
                const response = await apiBookings.get<CalendarBooking[]>(
-                    `/api/V1/bookings/calendar/${accomodationId}`,
+                     `/api/V1/bookings/calendar/${accomodationId}`,
                     {
-                      headers: {
-                        Authorization: `Bearer ${token}`
-                      }
-                    }
-                  );
+                       headers: {
+                         Authorization: `Bearer ${token}`
+                       }
+                     }
+                   );
                
-               // si la respuesta es correcta, mapeamos los datos y los agregamos al array de eventos
-               const { data, status } = response;
+               console.log("Despues de el Await de Calendar Booking");
 
-               if (status === 200) { 
-                    // obtenemos la informacion que necesitamos para mostrar en el calendario
+                    const { data, status } = response;
+
                     const mappedData = data.map(booking => ({
                          //id: booking.id,
                          status: booking.status,
@@ -47,12 +46,7 @@ export const getCalendarEntries = async (accomodationId?: string) => {
                     // agregamos los eventos al array de events.
                     events.push(...mappedData);
                     //console.log(events);
-               }
-               else
-               {
-                    console.error(`Error: Recibimos el status de Error # ${status}`);
-                    return [];
-               }
+
                               
 
           }
