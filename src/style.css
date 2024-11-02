@@ -1,0 +1,15 @@
+.red-square {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: red;
+    margin-left: 5px;
+  }
+
+.confirm-square {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-color: #f0f0f0;
+  margin-left: 5px;
+}

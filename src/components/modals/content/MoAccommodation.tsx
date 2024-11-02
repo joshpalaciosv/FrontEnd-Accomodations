@@ -17,7 +17,7 @@ export const MoAccommodation = ({ accommodation }: AccommodationProps) => {
     const fechaActualizacion = new Date(accommodation.updated_at).toISOString().split("T")[0];
 
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, p: 2 }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, p: 2, width: "500px" }}>
             <Typography level="h3">Información de Alojamiento</Typography>
             <List aria-labelledby="accommodation-info" sx={{ "--ListItemDecorator-size": "56px", display: "flex", flexDirection: "column", gap: 2 }}>
                 <ListItem sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
