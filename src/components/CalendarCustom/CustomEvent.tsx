@@ -1,8 +1,14 @@
 import React from 'react';
 
+interface EventProps {
+  event: {
+    title: string;
+  };
+}
+
 // el componente CustomEvent es el que se encarga de mostrar los eventos en el calendario
 // event brinda error en VS Code, pero no afecta el funcionamiento del componente
-export const CustomEvent = ({ event }) => {
+export const CustomEvent: React.FC<EventProps> = ({ event }) => {
   const maxLength = 25; // Maximum length of the event text
   const truncatedTitle = event.title.length > maxLength ? `${event.title.substring(0, maxLength)}...` : event.title;
 
@@ -13,7 +19,7 @@ export const CustomEvent = ({ event }) => {
   );
 };
 
-export const CustomEventCanceled = ({ event }) => {
+export const CustomEventCanceled: React.FC<EventProps> = ({ event }) => {
   const maxLength = 25; // Maximum length of the event text
   const truncatedTitle = event.title.length > maxLength ? `${event.title.substring(0, maxLength)}...` : event.title;
 

@@ -1,6 +1,11 @@
 // import React from 'react';
 
-const CustomAgendaTime = ({ event }) => {
+interface Event {
+  start: string | Date;
+  end: string | Date;
+}
+
+const CustomAgendaTime = ({ event }: { event: Event }) => {
   const startTime = new Date(event.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const endTime = new Date(event.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
