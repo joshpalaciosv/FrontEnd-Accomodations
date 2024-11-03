@@ -1,6 +1,10 @@
 // import React from 'react';
 
-const CustomAgendaDate = ({ label }) => {
+interface CustomAgendaDateProps {
+  label: string;
+}
+
+const CustomAgendaDate = ({ label }: CustomAgendaDateProps) => {
   return (
     <div style={{ color: '#555', fontSize: '12px', fontStyle: 'italic' }}>
       {label}

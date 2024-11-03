@@ -19,7 +19,10 @@ export default function Calendar(props: Omit<CalendarProps, "localizer">) {
     if (props.events) {
       let i = 0;
       while(currentDate != nearestDate && i < props.events.length) {
-        const eventDate = new Date(props.events[i].start);
+        //const startDate: Date = props.events[i].start;
+        const eventDate: Date = new Date();
+
+
         //console.log("Event date:", eventDate);
         //console.log(props.events?[i].start: "No hay eventos");
         if (eventDate > currentDate) {
@@ -45,17 +48,24 @@ export default function Calendar(props: Omit<CalendarProps, "localizer">) {
 
   return (
     <div>
-      <BigCalendar {...props} localizer={localizer}
+      <BigCalendar 
+      {...props} 
+      localizer={localizer}
       defaultView="month" // la vista por defecto es la de mensual
       style={{ height: 600 }} 
       //date={nearestDate} 
       components={{
         event: eventCustomColor, // se usa cun componente personalizado para mostrar los eventos
         agenda: {
-            event: CustomAgendaEvent,
-            date: CustomAgendaDate,
-            time: CustomAgendaTime // se personaliza la vista de agenda
-          }
+          event: CustomAgendaEvent,
+          //date: CustomAgendaDate,
+          //time: CustomAgendaTime // se personaliza la vista de agenda
+        }
+        // agenda: {
+        //     event: CustomAgendaEvent,
+        //     date: CustomAgendaDate,
+        //     time: CustomAgendaTime // se personaliza la vista de agenda
+        //   }
       }}
       />
     </div>

@@ -1,7 +1,7 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import Calendar from "./Calendar";
-import { Box, Typography, Select, Option } from '@mui/joy';
+import { Box, Typography, Select, Option, CircularProgress } from '@mui/joy';
 // import { BarChart3, TrendingUp, Eye, Clock } from 'lucide-react';
 import { getCalendarEntries } from "../services/calendarService";
 import { CalendarEntry } from "../interfaces/calendar.interface";
@@ -22,19 +22,8 @@ import '../style.css';
 //     },
 //   ];
 
-//   console.log(eventsOLD);
 
-// const events = getCalendarEntries();
-// console.log(events);
-
-// const events = getCalendarEntries();
-// console.log(events);
-
-// export default function BasicCalendar() {
-//   return <Calendar events={events} />;
-// }
-
-// Unique function to filter array
+// funcion para eliminar duplicados.
 const unique = (array: string[]): string[] => {
   return [...new Set(array)];
 };
@@ -44,17 +33,24 @@ export default function BasicCalendar() {
     const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
     const [selectedAccommodation, setSelectedAccommodation] = useState<string>("");
     const [monthEntries, setMonthEntries] = useState<string[]>([]);
-
+    const [loadingSelect, setLoadingSelect] = useState<boolean>(false); // agregando un estado de carga
+    const [loadingCalendar, setLoadingCalendar] = useState<boolean>(false); // agregando un estado de carga
+    // 
     useEffect(() => {
       const fetchAccommodations = async () => {
+        //flag de carga, lo ubicamos en True para dar la sensacion de carga
+        setLoadingSelect(true);
         try {
         const accommodationsList = await getAllAccommodations();
-        //console.log("Fetched accommodations:", accommodationsList);
+        // llenamos el estado con la lista de alojamientos
         setAccommodations(accommodationsList);
-        console.log("State accommodations:", accommodations);
+        //console.log("State accommodations:", accommodations);
 
         } catch (error) {
-          console.error("Error fetching accommodations:", error);
+          console.error("Error fetchi Alojamientos:", error);
+        } finally {
+          // flag de carga, lo ubicamos en False cuando el Fecth termina
+          setLoadingSelect(false);
         }
       };
   
@@ -62,37 +58,49 @@ export default function BasicCalendar() {
     }, []);
 
 
-
+    // Fetch de para obtener las entradas de calendario cuando se selecciona un alojamiento.
      useEffect(() => {
        const fetchEvents = async () => {
+        setLoadingCalendar(true);
+        //console.log("Antes de Trraer eventos", selectedAccommodation);
+
+        // Si no hay alojamiento seleccionado, no hacemos nada
+        if (!selectedAccommodation) {
+          setLoadingCalendar(false);
+          return;
+        }
+        try { 
          const calendarEntries = await getCalendarEntries(selectedAccommodation);
+         //console.log("Calendar Entries:", calendarEntries);
+
          setEvents(calendarEntries);
          
-         console.log(calendarEntries); // Log the fetched events
-         
-         setMonthEntries([]); // Reset the monthEntries array
+         setMonthEntries([]); // Reiniciamos el estado de los meses
          calendarEntries.map((entry) => {
-          //  console.log(entry.title);
-          //  console.log(moment(entry.start).format('MMMM'));
-          //  console.log(entry.end);
+          // formatemos la fecha de inicio para obtener el mes
           const monthEntry = moment(entry.start).format('MMM');
-          //monthEntries.push(monthEntry);
           setMonthEntries((prev) => [...prev, monthEntry]);
-         });
 
-          //console.log(monthEntries);
+         });
+        } catch (error) { 
+          console.error("Error fetching entradas calenario:", error);
+        } finally {
+          // flag de carga, lo ubicamos en False cuando el Fecth termina
+          setLoadingCalendar(false);
+        }
+
        };
   
        fetchEvents();
-     }, [selectedAccommodation]);
+     }, [selectedAccommodation]); // cada vez que se cambie el alojamiento se ejecutara el useEffect
 
-    
+     // Funcion para manejar el cambio de alojamiento
      const handleChange = (
       event: React.SyntheticEvent | null,
       newValue: string | null,
       ) => {
         setSelectedAccommodation(newValue as string);
-        console.log(`You chose "${newValue}"`);
+        //console.log(`Alojamiento Seleccionado "${newValue}"`);
       };
 
     return (
@@ -101,21 +109,25 @@ export default function BasicCalendar() {
           Calendario Alojamientos
         </Typography>
 
-
-        <Select
-        defaultValue={selectedAccommodation} onChange={handleChange}
-        displayEmpty
-        inputProps={{ 'aria-label': 'Select Accommodation' }}
-        >
-          <Option value="0" disabled>Seleccionar Alojamiento</Option>
-          {accommodations.map(accommodation => (
-          <Option value={accommodation.id}>
-            {accommodation.name}
-          </Option>
-        ))}
-          {/* <Option value="1">Alojamiento 1</Option>
-          <Option value="2">Alojamiento 2</Option> */}
-        </Select>
+        {/* Mostramos un spinner de carga mientras se obtienen los alojamientos */}
+        {loadingSelect ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <CircularProgress />
+          </Box>
+        ) : (
+          <Select
+          defaultValue={selectedAccommodation} onChange={handleChange} 
+          >
+            <Option value="0" disabled>Seleccionar Alojamiento</Option>
+            {accommodations.map(accommodation => (
+            <Option key={accommodation.id} value={accommodation.id}>
+              {accommodation.name}
+            </Option>
+          ))}
+            {/* <Option value="1">Alojamiento 1</Option>
+            <Option value="2">Alojamiento 2</Option> */}
+          </Select>
+        )}
         <br />
         <Typography mb={6}>
           se han encontrado {events.length} eventos <br />
@@ -126,12 +138,14 @@ export default function BasicCalendar() {
           {/* <p style?={color:#EE4B2B}>(en rojo)</p> */}
 
         </Typography>
-        
-        
-        
-        
+        {/* Mostramos un spinner de carga mientras se obtienen las entradas de calendario */}
+        {loadingCalendar ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <CircularProgress />
+        </Box>
+          ) : (
         <Calendar events={events} />
-
+        )}
       </Box>
     );
   }
