@@ -1,4 +1,4 @@
-import { Box, IconButton } from "@mui/joy";
+import { Box,Button, IconButton } from "@mui/joy";
 import EnhancedTable from "../../components/tables/EnhancedTable";
 import { useEffect, useState } from "react";
 import { Booking } from "../../interfaces/booking.interface";
@@ -7,27 +7,60 @@ import { ColDef } from "@ag-grid-community/core";
 import TableSkeleton from "../../components/skeletons/TableSkeleton";
 import { MotionDiv } from "../../components/content/MotionDiv";
 import MainModal from "../../components/modals/MainModal";
-import { Eye } from "lucide-react";
+import { Eye, Edit } from "lucide-react";
 import { MoBooking } from "../../components/modals/content/MoBooking";
 import { BreadCrumb } from "../../components/BreadCrumb";
+import { ModAddBooking } from "../../components/modals/content/MoAddBooking";
+import { useLocation } from "react-router-dom";
+
 
 function BookingsPage() {
+   // MODALES IMPLEMENTADOS
+   type ModalType = "viewBooking" | "addEditBooking";
+
   const [bookingsData, setBookingsData] = useState<Booking[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // Modal content
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState({
+    viewBooking: false,
+    addEditBooking: false,
+  });
+
+   // Selecciona la reserva seleccionada cuando se hace clic en el botón de acciones
   const [bookingSelected, setBookingSelected] = useState<Booking | null>(null);
 
-  const handleModal = () => {
-    setIsOpen((prev) => !prev);
+  const handleModal = (type: ModalType) => {
+    setIsOpen((prev)  => ({
+      ...prev,
+      // Cambia el estado del modal a su inverso, false a true y viceversa
+      [type]: !prev[type],
+    }));
   };
+    // Cerrar todos los modals
+    const onClose = () => {
+      setIsOpen((prev) => ({
+        ...prev,
+        viewBooking: false,
+        addEditBooking: false,
+      }));
+    };
+  
 
   const CustomButtonComponent = (params: { data: Booking }) => {
     const handleClick = () => {
       setBookingSelected(params.data);
-      handleModal();
+       // Asignar la reservacion seleccionada al estado
+      handleModal("viewBooking");
     };
+    // Función para abrir el modal de edición
+    const handleEditClick = () => {
+      // Asignar el alojamiento seleccionado al estado
+      setBookingSelected(params.data);
+      handleModal("addEditBooking");
+    };
+
+
 
     return (
       <Box
@@ -41,9 +74,19 @@ function BookingsPage() {
         >
           <Eye />
         </IconButton>
+        <IconButton
+          variant="soft"
+          color="warning"
+          onClick={handleEditClick}
+          size="sm"
+        >
+          <Edit />
+        </IconButton>
       </Box>
     );
   };
+    // Use effect para detectar cambios en la URL
+  const location = useLocation();
 
   useEffect(() => {
     getAllBookings()
@@ -56,7 +99,15 @@ function BookingsPage() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+      if (location.search.includes("modal=close")) {
+        onClose();
+        // Eliminar el parámetro de la URL
+        window.history.replaceState({}, "", location.pathname);
+      }
+      // Se hará la petición de los alojamientos con el trigger que le envía el parámetro de la URL
+      // Esto se puede hacer también con SWR, actualiza el estado de la tabla cuanto se vuelve a llamar.
+    }, [location]);
+  
 
   // Column definitions for the table
   const columnDefs: ColDef[] = [
@@ -90,8 +141,8 @@ function BookingsPage() {
         }}
       >
         <MainModal
-          isOpen={isOpen}
-          handleModal={handleModal}
+          isOpen={isOpen.viewBooking}
+          handleModal={()=>handleModal("viewBooking")}
           content={
             <MoBooking
               booking={
@@ -115,11 +166,43 @@ function BookingsPage() {
           ariaLabelledBy="Profile on booking accommodations"
           ariaDescribedBy="View profile information and bookings"
         />
+           {/* Modal para agregar y editar alojamiento */}
+           <MainModal
+          isOpen={isOpen.addEditBooking}
+          handleModal={() => handleModal("addEditBooking")}
+          content={
+            <ModAddBooking
+              booking={bookingSelected?.booking ?? ""}
+              check_in_date={bookingSelected?.check_in_date ?? ""}
+              check_out_date={bookingSelected?.check_out_date ?? ""}
+              total_amount={bookingSelected?.total_amount ?? 0}
+              status={bookingSelected?.status ?? ""}
+            />
+          }
+          ariaLabelledBy="Add and edit accommodation"
+          ariaDescribedBy="Create a new or edit an existing accommodation"
+        />
+
+
+
 
         <BreadCrumb
           title="Lista de Reservaciones"
           subtitle="Todas las reservaciones realizadas"
           imgSrc="/assets/backgrounds/decameron.webp"
+          rightContent={
+            <Button
+              variant="soft"
+              color="primary"
+              onClick={() => {
+                // Limpiar el estado del modal
+                setBookingSelected(null);
+                handleModal("addEditBooking");
+              }}
+            >
+              Agregar nueva Reserva
+            </Button>
+          }
         />
 
         {isLoading ? (
