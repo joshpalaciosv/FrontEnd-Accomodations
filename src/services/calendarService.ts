@@ -1,7 +1,6 @@
 import moment from "moment";
 import { CalendarBooking, CalendarEntry } from "../interfaces/calendar.interface";
 import { apiBookings } from "./apiBookings";
-import axios from "axios";
 
 export const getCalendarEntries = async (accomodationId?: string) => {
    try {
@@ -33,7 +32,7 @@ export const getCalendarEntries = async (accomodationId?: string) => {
                
                console.log("Despues de el Await de Calendar Booking");
 
-                    const { data, status } = response;
+                    const { data } = response;
 
                     const mappedData = data.map(booking => ({
                          //id: booking.id,

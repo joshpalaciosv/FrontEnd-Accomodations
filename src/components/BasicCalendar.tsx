@@ -96,7 +96,7 @@ export default function BasicCalendar() {
 
      // Funcion para manejar el cambio de alojamiento
      const handleChange = (
-      event: React.SyntheticEvent | null,
+      _event: React.SyntheticEvent | null,
       newValue: string | null,
       ) => {
         setSelectedAccommodation(newValue as string);
