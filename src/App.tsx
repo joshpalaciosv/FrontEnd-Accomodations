@@ -18,12 +18,16 @@ import {
 } from "./pages";
 import theme from "./theme";
 import BasicCalendar from "./components/BasicCalendar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   //const [count, setCount] = useState(0)
 
   return (
     <>
+      <ToastContainer hideProgressBar={true} />
+
       <CssVarsProvider defaultMode="light" theme={theme}>
         <CssBaseline />
         <BrowserRouter>
@@ -41,8 +45,8 @@ function App() {
                     />
                     <Route path="reservations" element={<BookingsPage />} />
                     <Route path="users" element={<UsersPage />} />
-                    <Route path="*" element={<PageNotFound />} />
                     <Route path="calendar" element={<BasicCalendar />} />
+                    <Route path="*" element={<PageNotFound />} />
                   </Routes>
                 </DashboardLayout>
               }

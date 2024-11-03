@@ -48,7 +48,8 @@ export const SignInForm = () => {
       const response = await signIn(email, password);
 
       if (!response?.token) {
-        return setError("Acceso no autorizado");
+        setError("Acceso no autorizado");
+        return;
       }
 
       navigate("/dashboard");
