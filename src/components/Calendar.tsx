@@ -56,11 +56,11 @@ export default function Calendar(props: Omit<CalendarProps, "localizer">) {
       //date={nearestDate} 
       components={{
         event: eventCustomColor, // se usa cun componente personalizado para mostrar los eventos
-        agenda: {
-          event: CustomAgendaEvent,
-          //date: CustomAgendaDate,
-          //time: CustomAgendaTime // se personaliza la vista de agenda
-        }
+        // agenda: {
+        //   event: CustomAgendaEvent,
+        //   //date: CustomAgendaDate,
+        //   //time: CustomAgendaTime // se personaliza la vista de agenda
+        // }
         // agenda: {
         //     event: CustomAgendaEvent,
         //     date: CustomAgendaDate,
