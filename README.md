@@ -67,10 +67,10 @@ Aplicativo Responsive en la vista Desktop y la vista de dispositivos Mobiles.
 se ha utilizado Material UI/Joy.
 
 ### Mobile View 1
-<img src="./presentation/mobile1.png" alt="Mobile View 1" width="40%">
+<img src="./presentation/Mobile1.png" alt="Mobile View 1" width="40%">
 
 ### Mobile View 2
-<img src="./presentation/mobile2.png" alt="Mobile View 2" width="40%">
+<img src="./presentation/Mobile2.png" alt="Mobile View 2" width="40%">
 
 ### Mobile View 3
 <img src="./presentation/Mobile3.png" alt="Mobile View 2" width="40%">
