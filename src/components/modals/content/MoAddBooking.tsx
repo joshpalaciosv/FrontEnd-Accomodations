@@ -7,6 +7,8 @@ import {
   FormLabel,
   Input,
   Stack,
+  Select,
+  Option,
   Typography,
 } from "@mui/joy";
 import { AddBookingForm } from "../../../interfaces/booking.interface";
@@ -19,9 +21,13 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { MotionDiv } from "../../content/MotionDiv";
 import { FileWarningIcon } from "lucide-react";
+import { getAllAccommodations } from "../../../services/accommodationService";
+import { Accommodation } from "../../../interfaces/accommodations.interface";
+
+
 
 export const ModAddBooking = (booking?: AddBookingForm) => {
   const isEditing = booking?.id && booking?.id > 0;
@@ -43,6 +49,35 @@ export const ModAddBooking = (booking?: AddBookingForm) => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
+  const [selectedAccommodation, setSelectedAccommodation] = useState<string>("");
+ 
+
+
+  useEffect(() => {
+    const fetchAccommodations = async () => {
+      try {
+      const accommodationsList = await getAllAccommodations();
+      //console.log("Fetched accommodations:", accommodationsList);
+      setAccommodations(accommodationsList);
+      console.log("State accommodations:", accommodations);
+
+      } catch (error) {
+        console.error("Error fetching accommodations:", error);
+      }
+    };
+
+    fetchAccommodations();
+  }, []);
+
+
+  const handleChange = (
+    event: React.SyntheticEvent | null,
+    newValue: string | null,
+    ) => {
+      setSelectedAccommodation(newValue as string);
+      console.log(`You chose "${newValue}"`);
+    };
   const onSubmit: SubmitHandler<AddBookingForm> = async ({
     booking,
     check_in_date,
@@ -165,6 +200,31 @@ export const ModAddBooking = (booking?: AddBookingForm) => {
                 </MotionDiv>
               )}
             </FormControl>
+            <FormControl>
+              <FormLabel>Alojamiento</FormLabel>
+              <Select
+                value={selectedAccommodation || "0"}
+                onChange={handleChange}
+                inputProps={{ 'aria-label': 'Select Accommodation' }}
+              >
+                <Option value="Seleccionar alojamiento" disabled>Seleccionar Alojamiento</Option>
+                {accommodations.map(accommodation => (
+                  <Option key={accommodation.id} value={accommodation.id}>
+                    {accommodation.name}
+                  </Option>
+                ))}
+              </Select>
+                </FormControl>
+                {selectedAccommodation && (
+                  <FormControl>
+                    <FormLabel>ID del Alojamiento</FormLabel>
+                    <Input
+                      type="text"
+                      value={selectedAccommodation}
+                      readOnly
+                    />
+                  </FormControl>
+                )}
 
             <FormControl>
               <FormLabel>Monto Total</FormLabel>
