@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Calendar as BigCalendar, CalendarProps, momentLocalizer} from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css'; // css para el calendario
 import {CustomEvent, CustomEventCanceled} from './CalendarCustom/CustomEvent'; 
-import CustomAgendaEvent from './CalendarCustom/CustomAgendaEvent'; 
-import CustomAgendaDate from './CalendarCustom/CustomAgendaDate'; 
-import CustomAgendaTime from './CalendarCustom/CustomAgendaTime';
+
 
 const localizer = momentLocalizer(moment);
 
 export default function Calendar(props: Omit<CalendarProps, "localizer">) {
 
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const [currentDate] = useState<Date>(new Date());
   //console.log("Start date:",currentDate);
   const [nearestDate, setNearestDate] = useState<Date>(new Date());
 
