@@ -166,7 +166,7 @@ function BookingsPage() {
           ariaLabelledBy="Profile on booking accommodations"
           ariaDescribedBy="View profile information and bookings"
         />
-           {/* Modal para agregar y editar alojamiento */}
+           {/* Modal para agregar y editar Reserva */}
            <MainModal
           isOpen={isOpen.addEditBooking}
           handleModal={() => handleModal("addEditBooking")}
@@ -179,8 +179,8 @@ function BookingsPage() {
               status={bookingSelected?.status ?? ""}
             />
           }
-          ariaLabelledBy="Add and edit accommodation"
-          ariaDescribedBy="Create a new or edit an existing accommodation"
+          ariaLabelledBy="Add and edit Booking"
+          ariaDescribedBy="Create a new or edit an existing Booking"
         />
 
 
