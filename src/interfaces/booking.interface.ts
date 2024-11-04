@@ -15,8 +15,8 @@ export interface Booking {
 export interface AddBookingForm{
   id?: number;
   booking: string;
-  check_in_date: Date;//Originalmente Date
-  check_out_date: Date;//Originalmente Date
+  check_in_date: string;//Originalmente Date
+  check_out_date: string;//Originalmente Date
   total_amount: number;
   status: string;
   accomodation_id: number;
