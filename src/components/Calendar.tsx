@@ -4,8 +4,9 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css'; // css para el calendario
 import {CustomEvent, CustomEventCanceled} from './CalendarCustom/CustomEvent'; 
 import CustomAgendaEvent from './CalendarCustom/CustomAgendaEvent'; 
-import CustomAgendaDate from './CalendarCustom/CustomAgendaDate'; 
-import CustomAgendaTime from './CalendarCustom/CustomAgendaTime';
+import { EventProps } from 'react-big-calendar';
+// import CustomAgendaDate from './CalendarCustom/CustomAgendaDate'; 
+// import CustomAgendaTime from './CalendarCustom/CustomAgendaTime';
 
 const localizer = momentLocalizer(moment);
 
@@ -56,16 +57,16 @@ export default function Calendar(props: Omit<CalendarProps, "localizer">) {
       //date={nearestDate} 
       components={{
         event: eventCustomColor, // se usa cun componente personalizado para mostrar los eventos
-        agenda: {
-          event: CustomAgendaEvent,
-          //date: CustomAgendaDate,
-          //time: CustomAgendaTime // se personaliza la vista de agenda
-        }
         // agenda: {
-        //     event: CustomAgendaEvent,
-        //     date: CustomAgendaDate,
-        //     time: CustomAgendaTime // se personaliza la vista de agenda
-        //   }
+        //   event: CustomAgendaEvent,
+        //   //date: CustomAgendaDate,
+        //   //time: CustomAgendaTime // se personaliza la vista de agenda
+        // }
+        // // agenda: {
+        // //     event: CustomAgendaEvent,
+        // //     date: CustomAgendaDate,
+        // //     time: CustomAgendaTime // se personaliza la vista de agenda
+        // //   }
       }}
       />
     </div>
